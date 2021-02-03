@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+/*
+Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot
+and partitions the given array around the picked pivot. There are many different versions 
+of quickSort that pick pivot in different ways.
+
+1)Always pick first element as pivot.
+2)Always pick last element as pivot (implemented below)
+3)Pick a random element as pivot.
+4)Pick median as pivot.
+
+The key process in quickSort is partition(). Target of partitions is, given an array and 
+an element x of array as pivot, put x at its correct position in sorted array and put all 
+smaller elements (smaller than x) before x, and put all greater elements (greater than x) 
+after x. All this should be done in linear time.
+
+*/
+
+void swaap(int *a,int *b)
+{
+    int temp = *a;
+    *a=*b;
+    *b=temp;
+}
+int partition(vector<int> &a,int l,int r)
+{
+    //we will choose the last element as our pivot and find its correct position in the array 
+    int pivot = a[r];
+    int ind=l-1;
+    
+/* we will run an index j running from l to r-1. if we find an element which is less than 
+our choosen pivot element,we will increment i and swap a[j] and a[i]. if we find an element 
+which is greater than our pivot,then we just increment the pointers.*/
+    for(int j=l;j<=r-1;j++)
+    {
+        if(a[j]<pivot)
+        {
+            ind++;
+            swap(a[ind],a[j]);
+        }
+    }
+/*After this loop,the pivot position will be one more than ind.*/
+    ind++;
+    swap(a[ind],a[r]);
+    return ind;
+}
+void quicksort(vector<int> &a,int l,int r)
+{
+    if(l<r)
+    {
+        int pi = partition(a,l,r);
+        quicksort(a,l,pi-1);
+        quicksort(a,pi+1,r);
+    }
+    
+}
+
+
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int> a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    
+    quicksort(a,0,n-1);
+    for(int i=0;i<n;i++)
+    cout<<a[i]<<" ";
+    cout<<endl;
+}
